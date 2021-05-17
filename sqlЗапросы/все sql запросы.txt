@@ -1,0 +1,93 @@
+вставка в таблицу услуг
+
+USE [inetprovider_kp]
+GO
+
+INSERT INTO [dbo].[Service]
+           ([Title]
+           ,[Price]
+           ,[Logo])
+
+SELECT [Title]
+      ,[Price]
+      ,[Logo]
+  FROM [dbo].[ВерУслуги$]
+
+
+
+вставка в таблицу клиентов
+
+USE [inetprovider_kp]
+GO
+
+INSERT INTO [dbo].[Client]
+           ([Login]
+           ,[Password]
+           ,[FirstName]
+           ,[LastName]
+           ,[MiddleName]
+           ,[BirthDay]
+           ,[Phone]
+           ,[Email]
+           ,[Balance])
+
+
+SELECT [Login]
+      ,[Password]
+      ,[FirstName]
+      ,[LastName]
+      ,[MiddleName]
+      ,[BirthDay]
+      ,[Phone]
+      ,[Email]
+      ,[Balance]
+  FROM [dbo].[Клиенты$]
+
+
+вставка в таблицу заказов
+
+USE [inetprovider_kp]
+GO
+
+INSERT INTO [dbo].[Order]
+           ([Number]
+           ,[TimeStart]
+           ,[TimeEnd]
+           ,[ClientId]
+
+
+SELECT [Number]
+      ,[TimeStart]
+      ,[TimeEnd]
+	,Cli.Id
+  FROM [dbo].[ВерЗаказы$] Zak,
+
+  Client Cli,
+  ВерКлиенты$ Imp
+
+WHERE Imp.NumberOrder=Zak.Number AND Imp.FirstName=Cli.FirstName
+
+
+вставка в таблицу ЗаказовУслуг
+
+USE [inetprovider_kp]
+GO
+
+INSERT INTO [dbo].[OrderService]
+           ([Serviceid]
+           ,[OrderId]
+           ,[DateBegin]
+           ,[Active])
+
+
+
+SELECT  S.Id
+		,O.Id
+      ,[DateBegin]
+      ,[Active]
+  FROM [dbo].[ВерЗаказы$] Zak,
+
+  [Service] S,
+  [Order] O
+
+  WHERE Zak.ServTitle=S.Title AND Zak.Number=O.Number

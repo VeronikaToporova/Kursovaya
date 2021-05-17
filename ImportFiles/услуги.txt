@@ -1,0 +1,6 @@
+Title,Price,Logo
+Подключение интернета,1000,img/Uslugy.jpg
+Проводка кабелей,1500,img/Uslugy.jpg
+Подключение тарифного пакета,500,img/Uslugy.jpg
+Покупкка роутера,200,img/Uslugy.jpg
+Подключение телевидения,700,img/Uslugy.jpg
