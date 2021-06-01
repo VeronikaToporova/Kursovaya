@@ -1,0 +1,50 @@
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\bin\Debug\InternetProviderToporova.exe.config
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\bin\Debug\InternetProviderToporova.exe
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\bin\Debug\InternetProviderToporova.pdb
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\bin\Debug\EntityFramework.dll
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\bin\Debug\EntityFramework.xml
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\bin\Debug\ru\EntityFramework.resources.dll
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.csprojAssemblyReference.cache
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\CreateWindow.g.cs
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\MainWindow.g.cs
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\App.g.cs
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova_Content.g.cs
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova_MarkupCompile.cache
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova_MarkupCompile.lref
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\App.baml
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\CreateWindow.baml
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\MainWindow.baml
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.g.resources
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.Properties.Resources.resources
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.csproj.GenerateResource.cache
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.csproj.CoreCompileInputs.cache
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.csproj.CopyComplete
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.exe
+C:\Users\Kirk Novos\Desktop\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.pdb
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\bin\Debug\InternetProviderToporova.exe.config
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\bin\Debug\InternetProviderToporova.exe
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\bin\Debug\InternetProviderToporova.pdb
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\bin\Debug\EntityFramework.dll
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\bin\Debug\EntityFramework.xml
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\bin\Debug\ru\EntityFramework.resources.dll
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.csprojAssemblyReference.cache
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\CreateWindow.g.cs
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\MainWindow.g.cs
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\App.g.cs
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova_Content.g.cs
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova_MarkupCompile.cache
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova_MarkupCompile.lref
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\App.baml
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\CreateWindow.baml
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\MainWindow.baml
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.g.resources
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.Properties.Resources.resources
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.csproj.GenerateResource.cache
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.csproj.CopyComplete
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.exe
+C:\Users\User\Desktop\Veronika\InternetProviderToporova\InternetProviderToporova\obj\Debug\InternetProviderToporova.pdb
