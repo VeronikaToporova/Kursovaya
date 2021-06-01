@@ -18,7 +18,7 @@
     <td style="text-align: right; border: none; height: 20em;">
         <div style="float: right;" align="left">
             <b>Разработал</b>: <br/>
-            Новосёлов Кирилл Алексеевич <br/>
+            Топорова Вероника Николаевна <br/>
             <b>Проверил</b>: <br/>
             Колесников Евгений Иванович
         </div>
@@ -44,7 +44,7 @@ https://github.com/veronikatoporova/kursovaya
 # Теоретическая-часть
 ## Диаграммы
 
-### Предметная область Интернет провайдер.Подсистема работы с товарами.
+### Предметная область Интернет провайдер.Подсистема работы с клиентами.
 
 ### Диаграмма Use Case:
 
@@ -52,7 +52,7 @@ https://github.com/veronikatoporova/kursovaya
 ### Диаграмма ER:
 ![ER диаграмма](./img/ERD.png)
 ### Диаграмма Состояний:
-![State Mashine](./img/StateMashine.png)
+![State Mashine](./img/Sequence.png)
 ### CСпецификация прецентдентов Use Case:
 ![Спецификация 1](./img/SpecificationUseCase1.png)
 ![Спецификация 2](./img/SpecificationUseCase2.png)
@@ -66,167 +66,231 @@ https://github.com/veronikatoporova/kursovaya
 #### Прмер кода разметки страницы:
 ```xml
 
+    <Window x:Class="InternetProviderToporova.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InternetProviderToporova"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel VerticalAlignment="Bottom">
+        <Image 
+        Margin="5"
+        Source="./logo/logo.jpg" 
+        VerticalAlignment="Top"/>
 
-            <Label Content="Цена: "/>
-            <RadioButton 
-                GroupName="Price"
-                Tag="1"
-                Content="по возрастанию" 
-                IsChecked="True" 
-                Checked="RadioButton_Checked"
-                VerticalContentAlignment="Center"/>
-            <RadioButton 
-                GroupName="Price" 
-                Tag="2"
-                Content="по убыванию" 
-                Checked="RadioButton_Checked"
-                VerticalContentAlignment="Center"/>
+        <StackPanel  Orientation="Vertical" VerticalAlignment="Bottom">
+            <Button 
+                Margin="5"
+                Content="Добавление" 
+                Name="AddButton" 
+                Click="AddButton_Click"/>
+            <Button 
+                Margin="5"
+                Content="Выход" 
+                Name="ExitButton" 
+                Click="ExitButton_Click"/>
+        </StackPanel>
 
-            <Label Content="Фильтр по скидке: "
-                Margin="10,0,0,0"
-                VerticalAlignment="Center"/>
-            <ComboBox
-                Name="PriceFilterComboBox"
-                SelectedIndex="0"
-                SelectionChanged="PriceFilterComboBox_SelectionChanged"
-                ItemsSource="{Binding FilterByPriceNamesList}"/>
 
-            <Label Content="Поиск"/>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel 
+                Orientation="Horizontal" 
+                VerticalAlignment="Center">
+                <Label Content="Цена: "/>
+                <RadioButton 
+                    GroupName="Price"
+                    Tag="1"
+                    Content="по возрастанию" 
+                    IsChecked="True" 
+                    Checked="RadioButton_Checked"
+                    VerticalContentAlignment="Center"/>
+                <RadioButton 
+                    GroupName="Price" 
+                    Tag="2"
+                    Content="по убыванию" 
+                    Checked="RadioButton_Checked"
+                    VerticalContentAlignment="Center"/>
+
+                <Label Content="Фильтр по скидке: "
+        Margin="10,0,0,0"
+        VerticalAlignment="Center"/>
+                <ComboBox
+    Name="DiscountFilterComboBox"
+    SelectedIndex="0"
+    SelectionChanged="DiscountFilterComboBox_SelectionChanged"
+    ItemsSource="{Binding FilterByDiscountNamesList}"/>
+
+                <Label Content="Поиск"/>
                 <TextBox
+                    Width="70"
                     x:Name="SearchFilterTextBox"
                     VerticalAlignment="Center"
                     KeyUp="TextBox_KeyUp"/>
-            
-            <Button Margin="5" x:Name="OrderProvid" Content="Заказ поставок" Click="OrdProvidClick"></Button>
-            <Button Margin="5" x:Name="ExitBtn" Content="Выход" Click="ExitButtonClick"></Button>
-        </StackPanel>
-        <Image 
-        Margin="5"
-        Source="./Logo/Logo.jpg" 
-        VerticalAlignment="Top"/>
-        <ListView
-            Grid.Row="1"
-            Grid.Column="1"
-            ItemsSource="{Binding ProductList}"
-            x:Name="ProductListView">
-            <ListView.ItemContainerStyle>
-                <Style 
-                    TargetType="ListViewItem">
+            </StackPanel>
 
-                    <Style.Triggers>
-                        <DataTrigger
-                            Binding="{Binding MinPrice}"
+            <ListView
+                Grid.Row="1"
+                ItemsSource="{Binding ServiceList}"
+                x:Name="ProductListView">
+
+                <ListView.ItemContainerStyle>
+                    <Style 
+                        TargetType="ListViewItem">
+
+                        <Style.Triggers>
+                            <DataTrigger
+                            Binding="{Binding MaxBalance}"
                             Value="True">
-                            <Setter
+                                <Setter
                                 Property="Background"
-                                Value="Aqua"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                    <Setter 
-                        Property="HorizontalContentAlignment"
-                        Value="Stretch" />
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemTemplate>
-        <DataTemplate>
-            <Border 
-                BorderThickness="1" 
-                BorderBrush="Black" 
-                CornerRadius="5">
-                <Grid 
-                    Margin="10" 
-                    HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="64"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="100"/>
-                    </Grid.ColumnDefinitions>
-                    <Image
-                        Width="64" 
-                        Height="64"
-                        Source="{Binding Path=ImagePreview}" />
+                                Value="#FF61FFDB"/>
+                            </DataTrigger>
+                        </Style.Triggers>
 
-                    <TextBlock 
-                        Text="{Binding PriceString}" 
-                        Grid.Column="2" 
-                        HorizontalAlignment="Right" 
-                        Margin="10"/>
+                        <Setter 
+                            Property="HorizontalContentAlignment"
+                            Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
 
-                    <Grid Grid.Column="1" Margin="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <!-- рисуем вокруг элемента границу с загругленными углами -->
+                        <Border 
+                            BorderThickness="1" 
+                            BorderBrush="Black" 
+                            CornerRadius="5">
+                            <!-- основная "сетка" из 3-х столбцов: картинка, содержимое, цена -->
+                            <Grid 
+                                Margin="10" 
+                                HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="64"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
 
-                        <StackPanel
-                            Orientation="Horizontal">
-                            <TextBlock 
-                                Text="{Binding ProductType.Title}"/>
-                            <TextBlock 
-                                Text=" | "/>
-                            <TextBlock 
-                                Text="{Binding Title}"/>
-                        </StackPanel>
+                                <Image
+                                    Width="64" 
+                                    Height="64"
+                                    Source="{Binding Path=ImagePreview}" />
+                                <!-- ,TargetNullValue={StaticResource DefaultImage} -->
 
-                        <TextBlock 
-                            Text="{Binding Storage.Title}" 
-                            Grid.Row="1"/>
+                                <TextBlock 
+                                    Text="{Binding BalanceString}" 
+                                    Grid.Column="2" 
+                                    HorizontalAlignment="Right" 
+                                    Margin="10"/>
+
+
+                                <Button Margin="5" x:Name="EditOrdBtn"  Grid.Column="1" Height="30"  Width="120" Content="Изменение Заказа" Click="EditOrder_Click"></Button>
+                                <Button Margin="5" x:Name="DelOrdBtn" Grid.Column="1" HorizontalAlignment="Right" Height="30" Width="120" Content="Удаление Заказа" Click="DelOrd_Click"></Button>
+
+                                <!-- для содержимого рисуем вложенную сетку -->
+                                <Grid Grid.Column="1" Margin="5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="20"/>
+                                        <RowDefinition Height="20"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel
+                                        Orientation="Horizontal">
+                                        <TextBlock 
+                                            Text="{Binding Role}"/>
+                                        <TextBlock 
+                                            Text=" | "/>
+                                        <TextBlock 
+                                            Text="{Binding FullName}"/>
+                                    </StackPanel>
+
+                                    <TextBlock 
+                                        Text="{Binding Email}" 
+                                        Grid.Row="1"/>
+                                    <TextBlock 
+                                        Text="{Binding BirthDay}" 
+                                        Grid.Row="2"/>
+                                </Grid>
                             </Grid>
-                        </Grid>
-            </Border>
-        </DataTemplate>
-    </ListView.ItemTemplate>
-    </ListView>
-        <StackPanel 
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+            <StackPanel 
             Orientation="Horizontal"
             VerticalAlignment="Bottom"
             Grid.Column="1"
             Grid.Row="2">
-            <Label Content="{Binding FilteredProductCount}"/>
-            <Label Content="/"/>
-            <Label Content="{Binding ProductCount}"/>
-        </StackPanel>
+                <Label Content="{Binding FilteredProductCount}"/>
+                <Label Content="/"/>
+                <Label Content="{Binding ProductCount}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
+</Window>
+
 ```
 #### Пример Логики главной страницы:
 
 ```cs
 
 
-namespace InterNetProvider
+namespace InternetProviderToporova
 {
-    public partial class Product
+
+    public partial class Client
     {
+        // ссылка на картинку
+        // по ТЗ, если картинка не найдена, то должна выводиться картинка по-умолчанию
+        // в XAML-е можно это сделать средствами разметки, но там есть условие что вместо ссылки на картинку получен NULL
+        // у нас же возможна ситуация, когда в базе есть путь к картинке, но самой картинки в каталоге нет
+        // поэтому я сделал проверку наличия файла картинки и возвращаю картинку по-умолчанию, если нужной нет 
         public Uri ImagePreview
         {
             get
             {
-                var imageName = System.IO.Path.Combine(Environment.CurrentDirectory, Image ?? "");
+                var imageName = System.IO.Path.Combine(Environment.CurrentDirectory, Photo ?? "");
                 return System.IO.File.Exists(imageName) ? new Uri(imageName) : new Uri("pack://application:,,,/Images/picture.png");
             }
         }
 
-        public string PriceString
+        public string FullName
         {
             get
             {
-                return Price.ToString("#.##");
+                return FirstName + " " + LastName + " " + MiddleName;
             }
         }
 
-        public Boolean MinPrice
+        public Boolean MaxBalance
         {
             get
             {
-                return Price < 2000;
+                return Balance < 3000;
+            }
+        }
+
+        public string BalanceString
+        {
+            get
+            {
+                // Convert.ToDecimal - преобразует double в decimal
+                // Discount ?? 0 - разнуливает "Nullable" переменную
+                return Balance.ToString("#.##");
             }
         }
 
@@ -234,56 +298,51 @@ namespace InterNetProvider
         {
             get
             {
-                return Convert.ToSingle(Price);
+                return Convert.ToSingle(Balance);
             }
         }
-
-        public string ProductString
-        {
-            get
-            {
-                return Title ?? "";
-            }
-        }
-
 
     }
+
+    /// <summary>
+    /// Логика взаимодействия для MainWindow.xaml
+    /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private List<Product> _ProductList;
+        private List<Client> _ServiceList;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public List<Product> ProductList
+        public List<Client> ServiceList
         {
             get
             {
-                
-
-                var FilteredProductList = _ProductList.FindAll(item =>
-                item.PriceFloat >= CurrentPriceFilter.Item1 &&
-                item.PriceFloat < CurrentPriceFilter.Item2);
-
+                var FilteredServiceList = _ServiceList.FindAll(item =>
+                item.PriceFloat >= CurrentDiscountFilter.Item1 &&
+                item.PriceFloat < CurrentDiscountFilter.Item2);
 
                 if (SearchFilter != "")
-                    FilteredProductList = FilteredProductList.Where(item =>
-                        item.Title.IndexOf(SearchFilter, StringComparison.OrdinalIgnoreCase) != -1 ||
-                        item.ProductString.IndexOf(SearchFilter, StringComparison.OrdinalIgnoreCase) != -1).ToList();
-
-
+                    FilteredServiceList = FilteredServiceList.Where(item =>
+                        item.FullName.IndexOf(SearchFilter, StringComparison.OrdinalIgnoreCase) != -1 ||
+                        item.Role.IndexOf(SearchFilter, StringComparison.OrdinalIgnoreCase) != -1).ToList();
 
                 if (SortPriceAscending)
-                    return FilteredProductList
-                        .OrderBy(item => Double.Parse(item.PriceString))
-                        .ToList();
-                else
-                    return FilteredProductList
-                .OrderByDescending(item => Double.Parse(item.PriceString))
+                    return FilteredServiceList
+                    .OrderBy(item => Double.Parse(item.BalanceString))
                 .ToList();
+                else
+                    return FilteredServiceList
+                        .OrderByDescending(item => Double.Parse(item.BalanceString))
+                        .ToList();
             }
-            set
-            {
-                _ProductList = value;
+            set {
+                _ServiceList = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("ServiceList"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("ProductCount"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("FilteredProductCount"));
+                }
             }
         }
 
@@ -291,21 +350,10 @@ namespace InterNetProvider
         {
             InitializeComponent();
             this.DataContext = this;
-            ProductList = Core.DB.Product.ToList();
+            ServiceList = Core.DB.Client.ToList();
         }
 
-        private void ExitButtonClick(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-        private void OrdProvidClick(object sender, RoutedEventArgs e)
-        {
-            var Ord = new Windows.Order();
-            Ord.ShowDialog();
-        }
-
-
-        private Boolean _SortPriceAscending = true;
+            private Boolean _SortPriceAscending = true;
         public Boolean SortPriceAscending
         {
             get { return _SortPriceAscending; }
@@ -314,67 +362,60 @@ namespace InterNetProvider
                 _SortPriceAscending = value;
                 if (PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs("ProductList"));
-                    PropertyChanged(this, new PropertyChangedEventArgs("ServicesCount"));
-                    PropertyChanged(this, new PropertyChangedEventArgs("FilteredServicesCount"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("ServiceList"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("ProductCount"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("FilteredProductCount"));
 
                 }
             }
         }
 
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            SortPriceAscending = (sender as RadioButton).Tag.ToString() == "1";
-        }
-
-        
-
-        private List<Tuple<string, float, float>> FilterByPriceValuesList =
+        private List<Tuple<string, float, float>> FilterByDiscountValuesList =
         new List<Tuple<string, float, float>>() {
         Tuple.Create("Все цены", 0f, 100000f),
-        Tuple.Create("от 0 до 500", 0f, 500f),
-        Tuple.Create("от 500 до 1000", 500f, 1000f),
-        Tuple.Create("от 1000 до 1500", 1000f, 1500f),
-        Tuple.Create("от 1500 до 2000", 1500f, 2000f),
-        Tuple.Create("от 2000 до 2500", 2000f, 2500f)
+        Tuple.Create("от 0 до 20000", 0f, 20000f),
+        Tuple.Create("от 20000 до 40000", 20000f, 40000f),
+        Tuple.Create("от 40000 до 60000", 40000f, 60000f)
         };
 
-        public List<string> FilterByPriceNamesList
+        public List<string> FilterByDiscountNamesList
         {
             get
             {
-                return FilterByPriceValuesList
+                return FilterByDiscountValuesList
                     .Select(item => item.Item1)
                     .ToList();
             }
         }
 
-        private Tuple<float, float> _CurrentPriceFilter = Tuple.Create(float.MinValue, float.MaxValue);
 
-        public Tuple<float, float> CurrentPriceFilter
+        private Tuple<float, float> _CurrentDiscountFilter = Tuple.Create(float.MinValue, float.MaxValue);
+
+        public Tuple<float, float> CurrentDiscountFilter
         {
             get
             {
-                return _CurrentPriceFilter;
+                return _CurrentDiscountFilter;
             }
             set
             {
-                _CurrentPriceFilter = value;
+                _CurrentDiscountFilter = value;
                 if (PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs("ProductList"));
-                    PropertyChanged(this, new PropertyChangedEventArgs("ServicesCount"));
-                    PropertyChanged(this, new PropertyChangedEventArgs("FilteredServicesCount"));
+                    // при изменении фильтра список перерисовывается
+                    PropertyChanged(this, new PropertyChangedEventArgs("ServiceList"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("ProductCount"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("FilteredProductCount"));
 
                 }
             }
         }
 
-        private void PriceFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DiscountFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CurrentPriceFilter = Tuple.Create(
-                FilterByPriceValuesList[PriceFilterComboBox.SelectedIndex].Item2,
-                FilterByPriceValuesList[PriceFilterComboBox.SelectedIndex].Item3
+            CurrentDiscountFilter = Tuple.Create(
+                FilterByDiscountValuesList[DiscountFilterComboBox.SelectedIndex].Item2,
+                FilterByDiscountValuesList[DiscountFilterComboBox.SelectedIndex].Item3
             );
         }
 
@@ -388,9 +429,9 @@ namespace InterNetProvider
                 _SearchFilter = value;
                 if (PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs("ProductList"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("ServiceList"));
                     PropertyChanged(this, new PropertyChangedEventArgs("ServicesCount"));
-                    PropertyChanged(this, new PropertyChangedEventArgs("FilteredProductCount"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("FilteredServiceCount"));
                 }
             }
         }
@@ -400,11 +441,12 @@ namespace InterNetProvider
             SearchFilter = SearchFilterTextBox.Text;
         }
 
+
         public int ProductCount
         {
             get
             {
-                return _ProductList.Count;
+                return _ServiceList.Count;
             }
 
         }
@@ -412,326 +454,206 @@ namespace InterNetProvider
         {
             get
             {
-                return ProductList.Count;
-            }
-        }
-    }
-```
-### Окно заказов:
-![orderWindow](./img/OrderWindow.png)
-#### Прмер кода разметки страницы заказов:
-```xml
-<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
-        
-
-        <StackPanel VerticalAlignment="Bottom">
-            <Button Margin="5" x:Name="CreateOrdBtn" Content="Создание заказа" Click="AddOrder_Click"></Button>
-            
-        </StackPanel>
-
-        <ListView
-            Grid.Row="1"
-            Grid.Column="1"
-            ItemsSource="{Binding OrderList}"
-            x:Name="ProductListView">
-            <ListView.ItemContainerStyle>
-                <Style 
-                    TargetType="ListViewItem">
-                    <Setter 
-                        Property="HorizontalContentAlignment"
-                        Value="Stretch" />
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Border 
-                BorderThickness="1" 
-                BorderBrush="Black" 
-                CornerRadius="5">
-                        <Grid 
-                    Margin="10" 
-                    HorizontalAlignment="Stretch">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="64"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="100"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Image
-                        Width="64" 
-                        Height="64"
-                        Source="{Binding Path=Provider.ImagePre}" />
-                            
-                            <TextBlock 
-                                Text="{Binding TotalString}" 
-                                Grid.Column="2" 
-                                HorizontalAlignment="Right" 
-                                Margin="10"/>
-                            <Button Margin="5" x:Name="EditOrdBtn"  Grid.Column="1" Height="30"  Width="120" Content="Изменение Заказа" Click="EditOrder_Click"></Button>
-                            <Button Margin="5" x:Name="DelOrdBtn" Grid.Column="1" HorizontalAlignment="Right" Height="30" Width="120" Content="Удаление Заказа" Click="DelOrd_Click"></Button>
-                            <Grid Grid.Column="1" Margin="5">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="20"/>
-                                    <RowDefinition Height="20"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-
-                                <StackPanel
-                            Orientation="Horizontal">
-                                    <TextBlock 
-                                Text="{Binding Num}"/>
-                                    <TextBlock 
-                                Text=" | "/>
-                                    <TextBlock 
-                                Text="{Binding Provider.Title}"/>
-                                </StackPanel>
-                                
-                                <TextBlock 
-                            Text="{Binding Date}" 
-                            Grid.Row="1"/>
-                                
-                            </Grid>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </Grid>
-```
-#### Пример Логики страницы заказов:
-
-```cs
-namespace InterNetProvider
-{
-    public partial class Provider
-    {
-        public Uri ImagePre
-        {
-            get
-            {
-                var imageName = System.IO.Path.Combine(Environment.CurrentDirectory, Logo ?? "");
-                return System.IO.File.Exists(imageName) ? new Uri(imageName) : new Uri("pack://application:,,,/Images/picture.png");
-            }
-        }
-    }
-
-    public partial class ProviderOrder
-    {
-        public string TotalString
-        {
-            get
-            {
-                return Total.ToString("#.##");
-            }
-        }
-    }
-}
-
-
-namespace InterNetProvider.Windows
-{
-
-    public partial class Order : Window, INotifyPropertyChanged
-    {
-
-        private List<ProviderOrder> _OrderList;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public List<ProviderOrder> OrderList
-        {
-            get
-            {
-                return _OrderList;
-            }
-            set
-            {
-                _OrderList = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("OrderList"));
-                }
+                return ServiceList.Count;
             }
         }
 
-        public Order()
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            InitializeComponent();
-            this.DataContext = this;
-            OrderList = Core.DB.ProviderOrder.ToList();
+            SortPriceAscending = (sender as RadioButton).Tag.ToString() == "1";
         }
 
-
-        private void AddOrder_Click(object sender, RoutedEventArgs e)
+        private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            var NewOrder = new ProviderOrder();
-
-            var NewOrderWindow = new OrderWindow(NewOrder);
-            if ((bool)NewOrderWindow.ShowDialog())
+            var Ord = new Client();
+            var NewOrdWind = new CreateWindow(Ord);
+            if ((bool)NewOrdWind.ShowDialog())
             {
-                OrderList = Core.DB.ProviderOrder.ToList();
-                PropertyChanged(this, new PropertyChangedEventArgs("FilteredOrderCount"));
-                PropertyChanged(this, new PropertyChangedEventArgs("OrderCount"));
+                ServiceList = Core.DB.Client.ToList();
+                PropertyChanged(this, new PropertyChangedEventArgs("ServiceList"));
+                PropertyChanged(this, new PropertyChangedEventArgs("FilteredServiceCount"));
+                PropertyChanged(this, new PropertyChangedEventArgs("ServiceCount"));
             }
+            //Ord.ShowDialog();
+
         }
 
-        private void EditOrder_Click(object sender, RoutedEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            var SelectedOrder = ProductListView.SelectedItem as ProviderOrder;
-            var EditOrderWindow = new OrderWindow(SelectedOrder);
-            if ((bool)EditOrderWindow.ShowDialog())
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs("OrderList"));
-            }
+            Application.Current.Shutdown();
         }
 
         private void DelOrd_Click(object sender, RoutedEventArgs e)
         {
-            var item = ProductListView.SelectedItem as ProviderOrder;
-            Core.DB.ProviderOrder.Remove(item);
+            var item = ProductListView.SelectedItem as Client;
+            Core.DB.Client.Remove(item);
             Core.DB.SaveChanges();
-            OrderList = Core.DB.ProviderOrder.ToList();
+            ServiceList = Core.DB.Client.ToList();
         }
+        
 
+        private void EditOrder_Click(object sender, RoutedEventArgs e)
+        {
+            var SelectedOrder = ProductListView.SelectedItem as Client;
+            var EditOrderWindow = new CreateWindow(SelectedOrder);
+            if ((bool)EditOrderWindow.ShowDialog())
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("ServiceList"));;
+            }
 
+        }
     }
-
-    
 }
+
 ```
+
 
 ### Окно добавления и редактирования заказов:
 ![EditorderWindow](./img/EditOrder.png)
 #### Прмер кода разметки страницы редактирования заказов:
 ```xml
-      Title="{Binding WindowName}" Height="450" Width="800">
+      <Window x:Class="InternetProviderToporova.CreateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InternetProviderToporova"
+        mc:Ignorable="d"
+        Title="{Binding WindowName}" Height="450" Width="800">
     <Grid>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition  Width="*"/>
         </Grid.ColumnDefinitions>
 
+        <Image 
+            
+            Height="280" 
+            Width="280" 
+            Source="{Binding CurrentService.ImagePreview}" />
+
         <StackPanel Margin="5" Grid.Column="1">
-            <Label Content="Номер заказа"/>
-            <TextBox Text="{Binding CurrentOrder.Num}"/>
-            <Label Content="Дата заказа"/>
-            <TextBox Text="{Binding CurrentOrder.DateTimeText}"/>
-            <Label Content="Цена заказа"/>
-            <TextBox Text="{Binding CurrentOrder.Total}"/>
-            <Label Content="Поставщик"/>
-            <ComboBox
-                HorizontalAlignment="left"
-                ItemsSource="{Binding ProviderList}"
-                SelectedItem="{Binding CurrentOrder.Provider}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Label Content="{Binding Title}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <Button Content="Сохранить" Margin="7" HorizontalAlignment="left" Click="SaveButton"></Button>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition  Height="*"/>
+                    <RowDefinition  Height="*"/>
+                    <RowDefinition  Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Margin="25" Grid.Row="0" Orientation="Horizontal">
+                    <Label  Content="Логин"/>
+                    <TextBox Width="60" Text="{Binding CurrentService.Login}"/>
+                    <Label Content="Пароль"/>
+                    <TextBox Width="60" Text="{Binding CurrentService.Password}"/>
+                    <Label Content="Номер телефона"/>
+                    <TextBox Width="60" Text="{Binding CurrentService.Phone}"/>
+                </StackPanel>
+
+                <StackPanel Margin="25" Grid.Row="1" Orientation="Horizontal">
+                    <Label Content="Фамилия"/>
+                    <TextBox Width="60" Text="{Binding CurrentService.FirstName}"/>
+                    <Label Content="Имя"/>
+                    <TextBox Width="60" Text="{Binding CurrentService.LastName}"/>
+                    <Label Content="Отчество"/>
+                    <TextBox Width="60" Text="{Binding CurrentService.MiddleName}"/>
+                </StackPanel>
+                <StackPanel Margin="25" Grid.Row="2" Orientation="Horizontal">
+                    <Label Content="Почта"/>
+                    <TextBox Width="60" Text="{Binding CurrentService.Email}"/>
+                    <Label Content="Дата рождения"/>
+                    <TextBox Width="60" Text="{Binding CurrentService.BirthDay}"/>
+                    <Label Content="Баланс"/>
+                    <TextBox Width="60" Text="{Binding CurrentService.Balance}"/>
+                </StackPanel>
+                <StackPanel  Margin="25" Grid.Row="3" Orientation="Horizontal">
+                    <Label Content="Должность"/>
+                    <TextBox Width="60" Text="{Binding CurrentService.Role}"/>
+
+                   
+
+                </StackPanel>
+
+
+
+
+            </Grid>
+
+
+
+            <Button Content="Картинка" Margin="7" HorizontalAlignment="left" Click="GetImageButton_Click"></Button>
+            <Button Content="Сохранить" Margin="7" HorizontalAlignment="left" Click="SaveButton_Click"></Button>
         </StackPanel>
     </Grid>
+</Window>
+
 ```
 #### Пример Логики страницы редактирования заказов:
 
 ```cs
-namespace InterNetProvider
+namespace InternetProviderToporova
 {
-    public partial class Provider
+    /// <summary>
+    /// Логика взаимодействия для CreateWindow.xaml
+    /// </summary>
+    public partial class CreateWindow : Window, INotifyPropertyChanged
     {
-        public string ProvName
-        {
-            get
-            {
-                return Title;
-            }
-        }
-    }
+        //public List<Role> RoleList { get; set; }
+        public List<Client> WorkList { get; set; }
 
-    public partial class ProviderOrder
-    {
-        public string DateTimeText
-        {
-            get
-            {
-                return Date.ToString("dd.MM.yyyy hh:mm:ss");
-            }
-            set
-            {
-                Regex regex = new Regex(@"(\d+)\.(\d+)\.(\d+)\s+(\d+):(\d+):(\d+)");
-                Match match = regex.Match(value);
-                if (match.Success)
-                {
-                    try
-                    {
-                            Date = new DateTime(
-                            Convert.ToInt32(match.Groups[3].Value),
-                            Convert.ToInt32(match.Groups[2].Value),
-                            Convert.ToInt32(match.Groups[1].Value),
-                            Convert.ToInt32(match.Groups[4].Value),
-                            Convert.ToInt32(match.Groups[5].Value),
-                            Convert.ToInt32(match.Groups[6].Value)
-                            );
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Не верный формат даты/времени");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Не верный формат даты/времени");
-                }
-            }
-        }
-    }
-
-}
-
-
-namespace InterNetProvider.Windows
-{
-    public partial class OrderWindow : Window, INotifyPropertyChanged
-    {
-
-
-        public List<Provider> ProviderList { get; set; }
-        public ProviderOrder CurrentOrder { get; set; }
+        public Client CurrentService { get; set; }
 
         public string WindowName
         {
             get
             {
-                return CurrentOrder.Id == 0 ? "Новый заказ" : "Редактирование заказа";
+                return CurrentService.Id == 0 ? "Новый сотрудник" : "Редактирование сотрудника";
             }
         }
 
-        public OrderWindow(ProviderOrder order)
+        public CreateWindow(Client Sotrudnik)
         {
             InitializeComponent();
-            DataContext = this;
-            CurrentOrder = order;
-
-            ProviderList = Core.DB.Provider.ToList();
+            this.DataContext = this;
+            CurrentService = Sotrudnik;
+            //RoleList = Core.DB.Role.ToList();
+            WorkList = Core.DB.Client.ToList();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        
-        private void SaveButton(object sender, RoutedEventArgs e)
+        private void GetImageButton_Click(object sender, RoutedEventArgs e)
         {
-            if (CurrentOrder.Total <= 0)
+            OpenFileDialog GetImageDialog = new OpenFileDialog();
+            // задаем фильтр для выбираемых файлов
+            // до символа "|" идет произвольный текст, а после него шаблоны файлов раздеренные точкой с запятой
+            GetImageDialog.Filter = "Файлы изображений: (*.png, *.jpg)|*.png;*.jpg";
+            // чтобы не искать по всему диску задаем начальный каталог
+            GetImageDialog.InitialDirectory = Environment.CurrentDirectory;
+            if (GetImageDialog.ShowDialog() == true)
             {
-                MessageBox.Show("Стоимость заказа должна быть больше ноля");
+                // перед присвоением пути к картинке обрезаем начало строки, т.к. диалог возвращает полный путь
+                // (тут конечно еще надо проверить есть ли в начале Environment.CurrentDirectory)
+                CurrentService.Photo = GetImageDialog.FileName.Substring(Environment.CurrentDirectory.Length + 1);
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("CurrentService"));
+                }
+            }
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentService.Balance <= 0)
+            {
+                MessageBox.Show("Стоимость услуги должна быть больше ноля");
                 return;
             }
-            if (CurrentOrder.Id == 0)
-                Core.DB.ProviderOrder.Add(CurrentOrder);
+
+
+            // если запись новая, то добавляем ее в список
+            if (CurrentService.Id == 0)
+                Core.DB.Client.Add(CurrentService);
+
+            // сохранение в БД
             try
             {
                 Core.DB.SaveChanges();
@@ -742,6 +664,7 @@ namespace InterNetProvider.Windows
             DialogResult = true;
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
 ```
