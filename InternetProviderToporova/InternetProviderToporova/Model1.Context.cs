@@ -13,10 +13,10 @@ namespace InternetProviderToporova
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class inetprovider_kpEntities : DbContext
+    public partial class inetprovider_kpEntities1 : DbContext
     {
-        public inetprovider_kpEntities()
-            : base("name=inetprovider_kpEntities")
+        public inetprovider_kpEntities1()
+            : base("name=inetprovider_kpEntities1")
         {
         }
     
@@ -28,6 +28,7 @@ namespace InternetProviderToporova
         public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<OrderService> OrderService { get; set; }
+        public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Service> Service { get; set; }
     }
 }

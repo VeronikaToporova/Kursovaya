@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InternetProviderToporova"
         mc:Ignorable="d"
-        Title="{Binding WindowName}" Height="450" Width="800">
+        Title="{Binding WindowName}" Height="300" Width="850">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -20,55 +20,54 @@
 
         <StackPanel Margin="5" Grid.Column="1">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition  Height="*"/>
-                    <RowDefinition  Height="*"/>
-                    <RowDefinition  Height="*"/>
-                </Grid.RowDefinitions>
-
-                <StackPanel Margin="25" Grid.Row="0" Orientation="Horizontal">
-                    <Label  Content="Логин"/>
+               
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="25" Grid.Column="0" Orientation="Vertical">
+                    <Label  Content="Логин:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.Login}"/>
-                    <Label Content="Пароль"/>
+                    <Label Content="Пароль:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.Password}"/>
-                    <Label Content="Номер телефона"/>
+                    <Label Content="Номер:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.Phone}"/>
                 </StackPanel>
 
-                <StackPanel Margin="25" Grid.Row="1" Orientation="Horizontal">
-                    <Label Content="Фамилия"/>
+                <StackPanel Margin="25" Grid.Column="1" Orientation="Vertical">
+                    <Label Content="Фамилия:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.FirstName}"/>
-                    <Label Content="Имя"/>
+                    <Label Content="Имя:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.LastName}"/>
-                    <Label Content="Отчество"/>
+                    <Label Content="Отчество:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.MiddleName}"/>
                 </StackPanel>
-                <StackPanel Margin="25" Grid.Row="2" Orientation="Horizontal">
-                    <Label Content="Почта"/>
+                <StackPanel Margin="25" Grid.Column="2" Orientation="Vertical">
+                    <Label Content="Почта:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.Email}"/>
-                    <Label Content="Дата рождения"/>
-                    <TextBox Width="60" Text="{Binding CurrentService.BirthDay}"/>
-                    <Label Content="Баланс"/>
+                    <Label Content="Дата:"/>
+                    <TextBox Text="{Binding CurrentService.StartTimeText}"/>
+                    <Label Content="Баланс:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.Balance}"/>
                 </StackPanel>
-                <StackPanel  Margin="25" Grid.Row="3" Orientation="Horizontal">
-                    <Label Content="Должность"/>
-                    <TextBox Width="60" Text="{Binding CurrentService.Role}"/>
-
-                   
-
+                <StackPanel  Margin="25" Grid.Column="3" Orientation="Vertical">
+                    <Label Content="Должность:"/>
+                    <ComboBox
+                HorizontalAlignment="left"
+                ItemsSource="{Binding WorkList}"
+                SelectedItem="{Binding CurrentService.Role}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Title}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Content="Картинка" Margin="5" HorizontalAlignment="left" Click="GetImageButton_Click"></Button>
+                    <Button Content="Сохранить" Margin="5" HorizontalAlignment="left" Click="SaveButton_Click"></Button>
                 </StackPanel>
-
-
-
-
             </Grid>
-
-
-
-            <Button Content="Картинка" Margin="7" HorizontalAlignment="left" Click="GetImageButton_Click"></Button>
-            <Button Content="Сохранить" Margin="7" HorizontalAlignment="left" Click="SaveButton_Click"></Button>
         </StackPanel>
     </Grid>
 </Window>

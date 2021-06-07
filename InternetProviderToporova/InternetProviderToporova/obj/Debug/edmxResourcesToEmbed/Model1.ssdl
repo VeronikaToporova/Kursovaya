@@ -4,7 +4,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
     <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -14,7 +14,7 @@
     <Property Name="Phone" Type="float" />
     <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Balance" Type="money" Nullable="false" />
-    <Property Name="Role" Type="nvarchar" MaxLength="50" />
+    <Property Name="RoleId" Type="int" Nullable="false" />
     <Property Name="Photo" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Order">
@@ -37,6 +37,13 @@
     <Property Name="DateBegin" Type="date" />
     <Property Name="Active" Type="nvarchar" MaxLength="8" />
   </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="Service">
     <Key>
       <PropertyRef Name="Id" />
@@ -46,6 +53,18 @@
     <Property Name="Price" Type="money" Nullable="false" />
     <Property Name="Logo" Type="nvarchar" MaxLength="255" />
   </EntityType>
+  <Association Name="FK_Client_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="1" />
+    <End Role="Client" Type="Self.Client" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Client">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Order_Client">
     <End Role="Client" Type="Self.Client" Multiplicity="1" />
     <End Role="Order" Type="Self.Order" Multiplicity="*" />
@@ -86,7 +105,12 @@
     <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderService" EntityType="Self.OrderService" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Client_Role" Association="Self.FK_Client_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="Client" EntitySet="Client" />
+    </AssociationSet>
     <AssociationSet Name="FK_Order_Client" Association="Self.FK_Order_Client">
       <End Role="Client" EntitySet="Client" />
       <End Role="Order" EntitySet="Order" />

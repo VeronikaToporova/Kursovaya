@@ -8,6 +8,6 @@ namespace InternetProviderToporova
 {
     class Core
     {
-        public static inetprovider_kpEntities DB = new inetprovider_kpEntities();
+        public static inetprovider_kpEntities1 DB = new inetprovider_kpEntities1();
     }
 }

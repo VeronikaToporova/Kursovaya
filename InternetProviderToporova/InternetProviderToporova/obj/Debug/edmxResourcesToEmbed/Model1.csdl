@@ -4,7 +4,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id" Type="Int32" Nullable="false" />
     <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -14,8 +14,9 @@
     <Property Name="Phone" Type="Double" />
     <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Balance" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-    <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RoleId" Type="Int32" Nullable="false" />
     <Property Name="Photo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Role" Relationship="Self.FK_Client_Role" FromRole="Client" ToRole="Role" />
     <NavigationProperty Name="Order" Relationship="Self.FK_Order_Client" FromRole="Client" ToRole="Order" />
   </EntityType>
   <EntityType Name="Order">
@@ -42,6 +43,14 @@
     <NavigationProperty Name="Order" Relationship="Self.FK_OrderService_Order" FromRole="OrderService" ToRole="Order" />
     <NavigationProperty Name="Service" Relationship="Self.FK_OrderService_Service" FromRole="OrderService" ToRole="Service" />
   </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Client" Relationship="Self.FK_Client_Role" FromRole="Role" ToRole="Client" />
+  </EntityType>
   <EntityType Name="Service">
     <Key>
       <PropertyRef Name="Id" />
@@ -52,6 +61,18 @@
     <Property Name="Logo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="OrderService" Relationship="Self.FK_OrderService_Service" FromRole="Service" ToRole="OrderService" />
   </EntityType>
+  <Association Name="FK_Client_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="1" />
+    <End Role="Client" Type="Self.Client" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Client">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Order_Client">
     <End Role="Client" Type="Self.Client" Multiplicity="1" />
     <End Role="Order" Type="Self.Order" Multiplicity="*" />
@@ -88,11 +109,16 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="inetprovider_kpEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="inetprovider_kpEntities1" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Client" EntityType="Self.Client" />
     <EntitySet Name="Order" EntityType="Self.Order" />
     <EntitySet Name="OrderService" EntityType="Self.OrderService" />
+    <EntitySet Name="Role" EntityType="Self.Role" />
     <EntitySet Name="Service" EntityType="Self.Service" />
+    <AssociationSet Name="FK_Client_Role" Association="Self.FK_Client_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="Client" EntitySet="Client" />
+    </AssociationSet>
     <AssociationSet Name="FK_Order_Client" Association="Self.FK_Order_Client">
       <End Role="Client" EntitySet="Client" />
       <End Role="Order" EntitySet="Order" />

@@ -4,11 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="afeac42cf60e4002a5024235d7e17966" Name="Diagram1">
-        <EntityTypeShape EntityType="inetprovider_kpModel.Client" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="inetprovider_kpModel.Order" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="inetprovider_kpModel.OrderService" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="inetprovider_kpModel.Service" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+      <Diagram DiagramId="e299961b640b4ef6bd74edf6190be7b4" Name="Diagram1">
+        <EntityTypeShape EntityType="inetprovider_kpModel.Client" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="inetprovider_kpModel.Order" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="inetprovider_kpModel.OrderService" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="inetprovider_kpModel.Role" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="inetprovider_kpModel.Service" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
+        <AssociationConnector Association="inetprovider_kpModel.FK_Client_Role" ManuallyRouted="false" />
         <AssociationConnector Association="inetprovider_kpModel.FK_Order_Client" ManuallyRouted="false" />
         <AssociationConnector Association="inetprovider_kpModel.FK_OrderService_Order" ManuallyRouted="false" />
         <AssociationConnector Association="inetprovider_kpModel.FK_OrderService_Service" ManuallyRouted="false" />

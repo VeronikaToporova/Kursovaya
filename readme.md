@@ -65,8 +65,7 @@ https://github.com/veronikatoporova/kursovaya
 ![MainWindow](./img/MainWindow.png)
 #### Прмер кода разметки страницы:
 ```xml
-
-    <Window x:Class="InternetProviderToporova.MainWindow"
+<Window x:Class="InternetProviderToporova.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -88,9 +87,14 @@ https://github.com/veronikatoporova/kursovaya
         <StackPanel  Orientation="Vertical" VerticalAlignment="Bottom">
             <Button 
                 Margin="5"
-                Content="Добавление" 
+                Content="Добавление Клиента" 
                 Name="AddButton" 
                 Click="AddButton_Click"/>
+
+            <Button Margin="5" x:Name="EditOrdBtn"  Content="Изменение Клиента" Click="EditOrder_Click"></Button>
+            <Button Margin="5" x:Name="DelOrdBtn" Content="Удаление Клиента" Click="DelOrd_Click"></Button>
+
+
             <Button 
                 Margin="5"
                 Content="Выход" 
@@ -196,9 +200,7 @@ https://github.com/veronikatoporova/kursovaya
                                     Margin="10"/>
 
 
-                                <Button Margin="5" x:Name="EditOrdBtn"  Grid.Column="1" Height="30"  Width="120" Content="Изменение Заказа" Click="EditOrder_Click"></Button>
-                                <Button Margin="5" x:Name="DelOrdBtn" Grid.Column="1" HorizontalAlignment="Right" Height="30" Width="120" Content="Удаление Заказа" Click="DelOrd_Click"></Button>
-
+                               
                                 <!-- для содержимого рисуем вложенную сетку -->
                                 <Grid Grid.Column="1" Margin="5">
                                     <Grid.RowDefinitions>
@@ -210,7 +212,7 @@ https://github.com/veronikatoporova/kursovaya
                                     <StackPanel
                                         Orientation="Horizontal">
                                         <TextBlock 
-                                            Text="{Binding Role}"/>
+                                            Text="{Binding Role.Title}"/>
                                         <TextBlock 
                                             Text=" | "/>
                                         <TextBlock 
@@ -248,17 +250,11 @@ https://github.com/veronikatoporova/kursovaya
 
 ```cs
 
-
 namespace InternetProviderToporova
 {
 
     public partial class Client
     {
-        // ссылка на картинку
-        // по ТЗ, если картинка не найдена, то должна выводиться картинка по-умолчанию
-        // в XAML-е можно это сделать средствами разметки, но там есть условие что вместо ссылки на картинку получен NULL
-        // у нас же возможна ситуация, когда в базе есть путь к картинке, но самой картинки в каталоге нет
-        // поэтому я сделал проверку наличия файла картинки и возвращаю картинку по-умолчанию, если нужной нет 
         public Uri ImagePreview
         {
             get
@@ -324,7 +320,7 @@ namespace InternetProviderToporova
                 if (SearchFilter != "")
                     FilteredServiceList = FilteredServiceList.Where(item =>
                         item.FullName.IndexOf(SearchFilter, StringComparison.OrdinalIgnoreCase) != -1 ||
-                        item.Role.IndexOf(SearchFilter, StringComparison.OrdinalIgnoreCase) != -1).ToList();
+                        item.BalanceString.IndexOf(SearchFilter, StringComparison.OrdinalIgnoreCase) != -1).ToList();
 
                 if (SortPriceAscending)
                     return FilteredServiceList
@@ -486,6 +482,12 @@ namespace InternetProviderToporova
         private void DelOrd_Click(object sender, RoutedEventArgs e)
         {
             var item = ProductListView.SelectedItem as Client;
+            if (item == null)
+            {
+                MessageBox.Show("Не выбран клиент");
+                return;
+            }
+
             Core.DB.Client.Remove(item);
             Core.DB.SaveChanges();
             ServiceList = Core.DB.Client.ToList();
@@ -495,6 +497,13 @@ namespace InternetProviderToporova
         private void EditOrder_Click(object sender, RoutedEventArgs e)
         {
             var SelectedOrder = ProductListView.SelectedItem as Client;
+
+            if (SelectedOrder == null)
+            {
+                MessageBox.Show("Не выбран клиент");
+                return;
+            }
+
             var EditOrderWindow = new CreateWindow(SelectedOrder);
             if ((bool)EditOrderWindow.ShowDialog())
             {
@@ -508,18 +517,18 @@ namespace InternetProviderToporova
 ```
 
 
-### Окно добавления и редактирования заказов:
+### Окно добавления и редактирования клиентов:
 ![EditorderWindow](./img/EditOrder.png)
 #### Прмер кода разметки страницы редактирования заказов:
 ```xml
-      <Window x:Class="InternetProviderToporova.CreateWindow"
+<Window x:Class="InternetProviderToporova.CreateWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InternetProviderToporova"
         mc:Ignorable="d"
-        Title="{Binding WindowName}" Height="450" Width="800">
+        Title="{Binding WindowName}" Height="300" Width="850">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -534,72 +543,114 @@ namespace InternetProviderToporova
 
         <StackPanel Margin="5" Grid.Column="1">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition  Height="*"/>
-                    <RowDefinition  Height="*"/>
-                    <RowDefinition  Height="*"/>
-                </Grid.RowDefinitions>
-
-                <StackPanel Margin="25" Grid.Row="0" Orientation="Horizontal">
-                    <Label  Content="Логин"/>
+               
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="25" Grid.Column="0" Orientation="Vertical">
+                    <Label  Content="Логин:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.Login}"/>
-                    <Label Content="Пароль"/>
+                    <Label Content="Пароль:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.Password}"/>
-                    <Label Content="Номер телефона"/>
+                    <Label Content="Номер:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.Phone}"/>
                 </StackPanel>
 
-                <StackPanel Margin="25" Grid.Row="1" Orientation="Horizontal">
-                    <Label Content="Фамилия"/>
+                <StackPanel Margin="25" Grid.Column="1" Orientation="Vertical">
+                    <Label Content="Фамилия:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.FirstName}"/>
-                    <Label Content="Имя"/>
+                    <Label Content="Имя:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.LastName}"/>
-                    <Label Content="Отчество"/>
+                    <Label Content="Отчество:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.MiddleName}"/>
                 </StackPanel>
-                <StackPanel Margin="25" Grid.Row="2" Orientation="Horizontal">
-                    <Label Content="Почта"/>
+                <StackPanel Margin="25" Grid.Column="2" Orientation="Vertical">
+                    <Label Content="Почта:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.Email}"/>
-                    <Label Content="Дата рождения"/>
-                    <TextBox Width="60" Text="{Binding CurrentService.BirthDay}"/>
-                    <Label Content="Баланс"/>
+                    <Label Content="Дата:"/>
+                    <TextBox Text="{Binding CurrentService.StartTimeText}"/>
+                    <Label Content="Баланс:"/>
                     <TextBox Width="60" Text="{Binding CurrentService.Balance}"/>
                 </StackPanel>
-                <StackPanel  Margin="25" Grid.Row="3" Orientation="Horizontal">
-                    <Label Content="Должность"/>
-                    <TextBox Width="60" Text="{Binding CurrentService.Role}"/>
-
-                   
-
+                <StackPanel  Margin="25" Grid.Column="3" Orientation="Vertical">
+                    <Label Content="Должность:"/>
+                    <ComboBox
+                HorizontalAlignment="left"
+                ItemsSource="{Binding WorkList}"
+                SelectedItem="{Binding CurrentService.Role}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Title}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Content="Картинка" Margin="5" HorizontalAlignment="left" Click="GetImageButton_Click"></Button>
+                    <Button Content="Сохранить" Margin="5" HorizontalAlignment="left" Click="SaveButton_Click"></Button>
                 </StackPanel>
-
-
-
-
             </Grid>
-
-
-
-            <Button Content="Картинка" Margin="7" HorizontalAlignment="left" Click="GetImageButton_Click"></Button>
-            <Button Content="Сохранить" Margin="7" HorizontalAlignment="left" Click="SaveButton_Click"></Button>
         </StackPanel>
     </Grid>
 </Window>
 
+
+
 ```
-#### Пример Логики страницы редактирования заказов:
+#### Пример Логики страницы редактирования клиентов:
 
 ```cs
+
 namespace InternetProviderToporova
 {
-    /// <summary>
-    /// Логика взаимодействия для CreateWindow.xaml
-    /// </summary>
-    public partial class CreateWindow : Window, INotifyPropertyChanged
+
+    public partial class Client
     {
-        //public List<Role> RoleList { get; set; }
-        public List<Client> WorkList { get; set; }
+        public string StartTimeText
+        {
+            get
+            {
+                return BirthDay.ToString("dd.MM.yyyy");
+            }
+            set
+            {
+                Regex regex = new Regex(@"(\d+)\.(\d+)\.(\d+)\s+(\d+):(\d+):(\d+)");
+                Match match = regex.Match(value);
+                if (match.Success)
+                {
+                    try
+                    {
+                        BirthDay = new DateTime(
+                            Convert.ToInt32(match.Groups[3].Value),
+                            Convert.ToInt32(match.Groups[2].Value),
+                            Convert.ToInt32(match.Groups[1].Value),
+                            Convert.ToInt32(match.Groups[4].Value),
+                            Convert.ToInt32(match.Groups[5].Value),
+                            Convert.ToInt32(match.Groups[6].Value)
+                            );
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Не верный формат даты/времени");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Не верный формат даты/времени");
+                }
+            }
+        }
+    }
+
+
+
+/// <summary>
+/// Логика взаимодействия для CreateWindow.xaml
+/// </summary>
+public partial class CreateWindow : Window, INotifyPropertyChanged
+    {
+        public List<Role> WorkList { get; set; }
 
         public Client CurrentService { get; set; }
 
@@ -616,22 +667,16 @@ namespace InternetProviderToporova
             InitializeComponent();
             this.DataContext = this;
             CurrentService = Sotrudnik;
-            //RoleList = Core.DB.Role.ToList();
-            WorkList = Core.DB.Client.ToList();
+            WorkList = Core.DB.Role.ToList();
         }
 
         private void GetImageButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog GetImageDialog = new OpenFileDialog();
-            // задаем фильтр для выбираемых файлов
-            // до символа "|" идет произвольный текст, а после него шаблоны файлов раздеренные точкой с запятой
             GetImageDialog.Filter = "Файлы изображений: (*.png, *.jpg)|*.png;*.jpg";
-            // чтобы не искать по всему диску задаем начальный каталог
             GetImageDialog.InitialDirectory = Environment.CurrentDirectory;
             if (GetImageDialog.ShowDialog() == true)
             {
-                // перед присвоением пути к картинке обрезаем начало строки, т.к. диалог возвращает полный путь
-                // (тут конечно еще надо проверить есть ли в начале Environment.CurrentDirectory)
                 CurrentService.Photo = GetImageDialog.FileName.Substring(Environment.CurrentDirectory.Length + 1);
                 if (PropertyChanged != null)
                 {
@@ -648,12 +693,8 @@ namespace InternetProviderToporova
                 return;
             }
 
-
-            // если запись новая, то добавляем ее в список
-            if (CurrentService.Id == 0)
+                if (CurrentService.Id == 0)
                 Core.DB.Client.Add(CurrentService);
-
-            // сохранение в БД
             try
             {
                 Core.DB.SaveChanges();
@@ -667,6 +708,8 @@ namespace InternetProviderToporova
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }
+
+
 ```
 # Тестировние
 ## Создание библиотеки классов и Юнит тестов

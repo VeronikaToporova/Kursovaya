@@ -19,11 +19,6 @@ namespace InternetProviderToporova
 
     public partial class Client
     {
-        // ссылка на картинку
-        // по ТЗ, если картинка не найдена, то должна выводиться картинка по-умолчанию
-        // в XAML-е можно это сделать средствами разметки, но там есть условие что вместо ссылки на картинку получен NULL
-        // у нас же возможна ситуация, когда в базе есть путь к картинке, но самой картинки в каталоге нет
-        // поэтому я сделал проверку наличия файла картинки и возвращаю картинку по-умолчанию, если нужной нет 
         public Uri ImagePreview
         {
             get
@@ -89,7 +84,7 @@ namespace InternetProviderToporova
                 if (SearchFilter != "")
                     FilteredServiceList = FilteredServiceList.Where(item =>
                         item.FullName.IndexOf(SearchFilter, StringComparison.OrdinalIgnoreCase) != -1 ||
-                        item.Role.IndexOf(SearchFilter, StringComparison.OrdinalIgnoreCase) != -1).ToList();
+                        item.BalanceString.IndexOf(SearchFilter, StringComparison.OrdinalIgnoreCase) != -1).ToList();
 
                 if (SortPriceAscending)
                     return FilteredServiceList
@@ -251,6 +246,12 @@ namespace InternetProviderToporova
         private void DelOrd_Click(object sender, RoutedEventArgs e)
         {
             var item = ProductListView.SelectedItem as Client;
+            if (item == null)
+            {
+                MessageBox.Show("Не выбран клиент");
+                return;
+            }
+
             Core.DB.Client.Remove(item);
             Core.DB.SaveChanges();
             ServiceList = Core.DB.Client.ToList();
@@ -260,6 +261,13 @@ namespace InternetProviderToporova
         private void EditOrder_Click(object sender, RoutedEventArgs e)
         {
             var SelectedOrder = ProductListView.SelectedItem as Client;
+
+            if (SelectedOrder == null)
+            {
+                MessageBox.Show("Не выбран клиент");
+                return;
+            }
+
             var EditOrderWindow = new CreateWindow(SelectedOrder);
             if ((bool)EditOrderWindow.ShowDialog())
             {

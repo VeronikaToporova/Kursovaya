@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,13 +17,53 @@ using System.Windows.Shapes;
 
 namespace InternetProviderToporova
 {
-    /// <summary>
-    /// Логика взаимодействия для CreateWindow.xaml
-    /// </summary>
-    public partial class CreateWindow : Window, INotifyPropertyChanged
+
+    public partial class Client
     {
-        //public List<Role> RoleList { get; set; }
-        public List<Client> WorkList { get; set; }
+        public string StartTimeText
+        {
+            get
+            {
+                return BirthDay.ToString("dd.MM.yyyy");
+            }
+            set
+            {
+                Regex regex = new Regex(@"(\d+)\.(\d+)\.(\d+)\s+(\d+):(\d+):(\d+)");
+                Match match = regex.Match(value);
+                if (match.Success)
+                {
+                    try
+                    {
+                        BirthDay = new DateTime(
+                            Convert.ToInt32(match.Groups[3].Value),
+                            Convert.ToInt32(match.Groups[2].Value),
+                            Convert.ToInt32(match.Groups[1].Value),
+                            Convert.ToInt32(match.Groups[4].Value),
+                            Convert.ToInt32(match.Groups[5].Value),
+                            Convert.ToInt32(match.Groups[6].Value)
+                            );
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Не верный формат даты/времени");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Не верный формат даты/времени");
+                }
+            }
+        }
+    }
+
+
+
+/// <summary>
+/// Логика взаимодействия для CreateWindow.xaml
+/// </summary>
+public partial class CreateWindow : Window, INotifyPropertyChanged
+    {
+        public List<Role> WorkList { get; set; }
 
         public Client CurrentService { get; set; }
 
@@ -39,22 +80,16 @@ namespace InternetProviderToporova
             InitializeComponent();
             this.DataContext = this;
             CurrentService = Sotrudnik;
-            //RoleList = Core.DB.Role.ToList();
-            WorkList = Core.DB.Client.ToList();
+            WorkList = Core.DB.Role.ToList();
         }
 
         private void GetImageButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog GetImageDialog = new OpenFileDialog();
-            // задаем фильтр для выбираемых файлов
-            // до символа "|" идет произвольный текст, а после него шаблоны файлов раздеренные точкой с запятой
             GetImageDialog.Filter = "Файлы изображений: (*.png, *.jpg)|*.png;*.jpg";
-            // чтобы не искать по всему диску задаем начальный каталог
             GetImageDialog.InitialDirectory = Environment.CurrentDirectory;
             if (GetImageDialog.ShowDialog() == true)
             {
-                // перед присвоением пути к картинке обрезаем начало строки, т.к. диалог возвращает полный путь
-                // (тут конечно еще надо проверить есть ли в начале Environment.CurrentDirectory)
                 CurrentService.Photo = GetImageDialog.FileName.Substring(Environment.CurrentDirectory.Length + 1);
                 if (PropertyChanged != null)
                 {
@@ -71,12 +106,8 @@ namespace InternetProviderToporova
                 return;
             }
 
-
-            // если запись новая, то добавляем ее в список
-            if (CurrentService.Id == 0)
+                if (CurrentService.Id == 0)
                 Core.DB.Client.Add(CurrentService);
-
-            // сохранение в БД
             try
             {
                 Core.DB.SaveChanges();
