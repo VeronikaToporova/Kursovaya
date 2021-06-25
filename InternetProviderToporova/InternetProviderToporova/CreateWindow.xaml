@@ -29,33 +29,33 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Margin="25" Grid.Column="0" Orientation="Vertical">
                     <Label  Content="Логин:"/>
-                    <TextBox Width="60" Text="{Binding CurrentService.Login}"/>
+                    <TextBox  Text="{Binding CurrentService.Login}"/>
                     <Label Content="Пароль:"/>
-                    <TextBox Width="60" Text="{Binding CurrentService.Password}"/>
+                    <TextBox  Text="{Binding CurrentService.Password}"/>
                     <Label Content="Номер:"/>
-                    <TextBox Width="60" Text="{Binding CurrentService.Phone}"/>
+                    <TextBox  Text="{Binding CurrentService.Phone}"/>
                 </StackPanel>
 
                 <StackPanel Margin="25" Grid.Column="1" Orientation="Vertical">
                     <Label Content="Фамилия:"/>
-                    <TextBox Width="60" Text="{Binding CurrentService.FirstName}"/>
+                    <TextBox  Text="{Binding CurrentService.FirstName}"/>
                     <Label Content="Имя:"/>
-                    <TextBox Width="60" Text="{Binding CurrentService.LastName}"/>
+                    <TextBox  Text="{Binding CurrentService.LastName}"/>
                     <Label Content="Отчество:"/>
-                    <TextBox Width="60" Text="{Binding CurrentService.MiddleName}"/>
+                    <TextBox  Text="{Binding CurrentService.MiddleName}"/>
                 </StackPanel>
                 <StackPanel Margin="25" Grid.Column="2" Orientation="Vertical">
                     <Label Content="Почта:"/>
-                    <TextBox Width="60" Text="{Binding CurrentService.Email}"/>
+                    <TextBox Text="{Binding CurrentService.Email}"/>
                     <Label Content="Дата:"/>
                     <TextBox Text="{Binding CurrentService.StartTimeText}"/>
                     <Label Content="Баланс:"/>
-                    <TextBox Width="60" Text="{Binding CurrentService.Balance}"/>
+                    <TextBox  Text="{Binding CurrentService.Balance}"/>
                 </StackPanel>
                 <StackPanel  Margin="25" Grid.Column="3" Orientation="Vertical">
                     <Label Content="Должность:"/>
                     <ComboBox
-                HorizontalAlignment="left"
+                
                 ItemsSource="{Binding WorkList}"
                 SelectedItem="{Binding CurrentService.Role}">
                         <ComboBox.ItemTemplate>
@@ -64,8 +64,8 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <Button Content="Картинка" Margin="5" HorizontalAlignment="left" Click="GetImageButton_Click"></Button>
-                    <Button Content="Сохранить" Margin="5" HorizontalAlignment="left" Click="SaveButton_Click"></Button>
+                    <Button Content="Картинка" Margin="5"  Click="GetImageButton_Click"></Button>
+                    <Button Content="Сохранить" Margin="5"  Click="SaveButton_Click"></Button>
                 </StackPanel>
             </Grid>
         </StackPanel>
